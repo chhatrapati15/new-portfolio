@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Chhatrapati Chauhan — Frontend Engineer</title>
+    <meta name="description"
+        content="Chhatrapati Chauhan, Frontend Engineer — React &amp; Next.js applications, real-time SaaS platforms, and performant, accessible interfaces.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div id="root">
+
+        <div id="glow" aria-hidden="true"></div>
+
+        <!-- NAV -->
+        <nav class="nav">
+            <a href="#top" class="logo">
+                <span class="logo-badge">C</span>
+                <span class="logo-name">Chhatrapati</span>
+            </a>
+            <div class="nav-right">
+                <a href="#work">Work</a>
+                <a href="#about">About</a>
+                <a href="#experience">Experience</a>
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light and dark theme"
+                    title="Toggle theme">
+                    <span class="theme-toggle-knob" id="theme-toggle-knob">☀</span>
+                </button>
+                <a href="#contact" class="btn btn-primary btn-sm">Let's talk</a>
+            </div>
+        </nav>
+
+        <!-- HERO -->
+        <section id="top" class="hero">
+            <div class="blob blob-hero-1" aria-hidden="true"></div>
+            <div class="blob blob-hero-2" aria-hidden="true"></div>
+
+            <div data-reveal class="badge">
+                <span class="dot"></span>
+                <span class="mono">From "It works" -> "It scales"</span>
+            </div>
+
+            <h1 data-reveal data-reveal-delay="80" class="hero-title">
+                Chhatrapati<br><span class="accent-text">Chauhan</span>
+            </h1>
+
+            <p data-reveal data-reveal-delay="160" class="hero-subtitle">
+                Frontend engineer building <em class="highlight">fast, accessible interfaces</em> that scale. Three
+                years shipping production React &amp; Next.js apps for real-time SaaS platforms.
+            </p>
+
+            <div data-reveal data-reveal-delay="240" class="hero-cta">
+                <a href="#work" class="btn btn-primary">View my work →</a>
+                <a href="https://www.linkedin.com/in/chhatrapati15/" class="btn btn-secondary" target="_blank">Get in touch</a>
+            </div>
+
+            <div data-reveal data-reveal-delay="320" class="hero-stats" id="hero-stats"></div>
+        </section>
+
+        <!-- MARQUEE -->
+        <div class="marquee-wrap">
+            <div class="marquee-track" id="marquee-track"></div>
+        </div>
+
+        <!-- ABOUT -->
+        <section id="about" class="about">
+            <div class="about-text">
+                <div data-reveal class="mono-label">// about</div>
+                <h2 data-reveal data-reveal-delay="80">I care about the small details that make interfaces feel human.
+                </h2>
+                <p data-reveal data-reveal-delay="140">I'm a frontend engineer with 3 years shipping production React.js
+                    and Next.js apps. I've delivered 40+ tickets on real-time SaaS platforms with WebSocket
+                    architectures, 90+ Lighthouse performance, and scalable component systems.</p>
+                <p data-reveal data-reveal-delay="200">I care about the whole stack of a great interface — from smooth
+                    interactions and accessibility down to bundle size and Core Web Vitals.</p>
+            </div>
+        </section>
+
+        <!-- WORK -->
+        <section id="work" class="work">
+            <div class="section-head">
+                <div>
+                    <div data-reveal class="mono-label">// selected work</div>
+                    <h2 data-reveal data-reveal-delay="80">Things I've built</h2>
+                </div>
+            </div>
+            <div class="work-grid" id="work-grid"></div>
+        </section>
+
+        <!-- TOOLKIT -->
+        <section class="toolkit">
+            <div data-reveal class="mono-label">// toolkit</div>
+            <h2 data-reveal data-reveal-delay="80">The stack I reach for</h2>
+            <div class="toolkit-grid" id="toolkit-grid"></div>
+        </section>
+
+        <!-- EXPERIENCE -->
+        <section id="experience" class="experience">
+            <div data-reveal class="mono-label">// journey</div>
+            <h2 data-reveal data-reveal-delay="80">Where I've grown</h2>
+            <div class="timeline" id="timeline"></div>
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact" class="contact">
+            <div data-reveal class="contact-panel">
+                <div class="blob blob-contact" aria-hidden="true"></div>
+                <div class="contact-inner">
+                    <div class="mono-label">// let's build</div>
+                    <h2>Have a project in mind? Let's make it grow.</h2>
+                    <p>Open to full-time roles, freelance builds, and interesting collaborations. I usually reply within
+                        a day.</p>
+                    <div class="contact-actions" id="contact-actions"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <span class="mono" id="footer-copy"></span>
+            <a href="#top" class="mono back-to-top">back to top ↑</a>
+        </footer>
+
+    </div>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
