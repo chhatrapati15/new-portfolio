@@ -21,20 +21,34 @@
         <div id="glow" aria-hidden="true"></div>
 
         <!-- NAV -->
-        <nav class="nav">
-            <a href="#top" class="logo">
-                <span class="logo-badge">C</span>
-                <span class="logo-name">Chhatrapati</span>
-            </a>
-            <div class="nav-right">
+        <nav class="nav" id="nav">
+            <div class="nav-bar">
+                <a href="#top" class="logo">
+                    <span class="logo-badge">C</span>
+                    <span class="logo-name">Chhatrapati</span>
+                </a>
+                <div class="nav-right">
+                    <div class="nav-links">
+                        <a href="#work">Work</a>
+                        <a href="#about">About</a>
+                        <a href="#experience">Experience</a>
+                    </div>
+                    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light and dark theme"
+                        title="Toggle theme">
+                        <span class="theme-toggle-knob" id="theme-toggle-knob">☀</span>
+                    </button>
+                    <a href="#contact" class="btn btn-primary btn-sm nav-cta">Let's talk</a>
+                    <button id="nav-toggle" class="nav-toggle" aria-label="Open navigation menu"
+                        aria-expanded="false" aria-controls="mobile-menu">
+                        <span></span><span></span>
+                    </button>
+                </div>
+            </div>
+            <div class="mobile-menu" id="mobile-menu">
                 <a href="#work">Work</a>
                 <a href="#about">About</a>
                 <a href="#experience">Experience</a>
-                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light and dark theme"
-                    title="Toggle theme">
-                    <span class="theme-toggle-knob" id="theme-toggle-knob">☀</span>
-                </button>
-                <a href="#contact" class="btn btn-primary btn-sm">Let's talk</a>
+                <a href="#contact" class="btn btn-primary mobile-menu-cta">Let's talk</a>
             </div>
         </nav>
 
