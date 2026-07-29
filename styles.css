@@ -24,7 +24,10 @@ body { margin: 0; font-family: 'DM Sans', sans-serif; }
 
   background: var(--bg);
   color: var(--text);
+  /* clip (not hidden) keeps the blobs contained without making #root a scroll
+     container — `hidden` breaks the sticky nav on iOS Safari. */
   overflow-x: hidden;
+  overflow-x: clip;
   position: relative;
   min-height: 100vh;
   transition: background .3s ease, color .3s ease;
@@ -110,15 +113,18 @@ h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; margin: 0; }
   position: sticky;
   top: 0;
   z-index: 40;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 40px;
   backdrop-filter: blur(14px);
   background: var(--nav);
   border-bottom: 1px solid var(--border);
 }
-.logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 40px;
+}
+.logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; min-width: 0; }
 .logo-badge {
   width: 34px; height: 34px;
   display: grid; place-items: center;
@@ -126,9 +132,42 @@ h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; margin: 0; }
   border-radius: 40% 60% 55% 45% / 55% 45% 55% 45%;
   font-family: 'Space Grotesk'; font-weight: 700; font-size: 16px;
 }
-.logo-name { font-family: 'Space Grotesk'; font-weight: 600; font-size: 16px; letter-spacing: -0.01em; }
+.logo-name {
+  font-family: 'Space Grotesk'; font-weight: 600; font-size: 16px; letter-spacing: -0.01em;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
 .nav-right { display: flex; align-items: center; gap: 28px; }
+.nav-links { display: flex; align-items: center; gap: 28px; }
 .nav-right a:not(.btn) { color: var(--text-muted); text-decoration: none; font-size: 14px; }
+
+/* hamburger — desktop hidden, shown at the nav breakpoint */
+.nav-toggle {
+  display: none;
+  width: 44px; height: 44px;
+  place-items: center; align-content: center; justify-items: center;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  cursor: pointer;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.nav-toggle span {
+  display: block;
+  width: 18px; height: 2px;
+  border-radius: 2px;
+  background: var(--text);
+  transition: transform .3s cubic-bezier(.2,.7,.2,1);
+}
+.nav-toggle span + span { margin-top: 5px; }
+.nav.is-open .nav-toggle span:first-child { transform: translateY(3.5px) rotate(45deg); }
+.nav.is-open .nav-toggle span:last-child { transform: translateY(-3.5px) rotate(-45deg); }
+
+/* slide-down mobile panel. Vertical space lives on the children so that
+   max-height:0 collapses it completely. */
+.mobile-menu { display: none; }
 
 .theme-toggle {
   position: relative;
@@ -172,6 +211,8 @@ h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; margin: 0; }
 
 /* -------- sections -------- */
 section { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 130px 40px; }
+/* keep anchored headings clear of the sticky nav */
+section[id] { scroll-margin-top: 96px; }
 .hero { padding: 110px 40px 130px; }
 .about { padding: 130px 40px; }
 .work { padding: 40px 40px 130px; }
@@ -214,7 +255,7 @@ h2 { font-weight: 700; letter-spacing: -0.02em; }
   color: var(--text);
   font-style: normal;
   text-decoration: underline;
-  text-decoration-color: var(--accent1);
+  text-decoration-color: var(--accent2);
   text-underline-offset: 4px;
 }
 
@@ -257,7 +298,9 @@ h2 { font-weight: 700; letter-spacing: -0.02em; }
   text-decoration: none; color: inherit; display: block;
   background: var(--surface); border: 1px solid var(--border); border-radius: 28px; overflow: hidden;
 }
-.project-card:hover { box-shadow: 0 24px 60px -30px rgba(34,197,94,0.5); border-color: rgba(163,230,53,0.4); }
+@media (hover: hover) {
+  .project-card:hover { box-shadow: 0 24px 60px -30px rgba(34,197,94,0.5); border-color: rgba(163,230,53,0.4); }
+}
 .project-year {
   display: inline-block;
   font-family: 'JetBrains Mono'; font-size: 11px;
@@ -329,9 +372,180 @@ h2 { font-weight: 700; letter-spacing: -0.02em; }
 .footer .mono { font-size: 12px; color: var(--text-dim); }
 .back-to-top { color: var(--accent2) !important; text-decoration: none; }
 
-/* -------- responsive -------- */
+/* ---------------------------------------------------------------
+   RESPONSIVE
+   1024 — tighten the desktop gutters
+    860 — collapse the nav into a hamburger, grids to one column
+    640 — phone layout: type scale, stacked actions, smaller blobs
+    400 — small phones: full-width actions, minimum gutters
+   --------------------------------------------------------------- */
+
+@media (max-width: 1024px) {
+  .nav-bar { padding: 18px 32px; }
+  section { padding: 104px 32px; }
+  .hero { padding: 90px 32px 104px; }
+  .about { padding: 104px 32px; }
+  .work { padding: 32px 32px 104px; }
+  .toolkit { padding: 16px 32px 104px; }
+  .experience { padding: 16px 32px 104px; }
+  .contact { padding: 32px 32px 80px; }
+  .footer { padding: 30px 32px; }
+}
+
 @media (max-width: 860px) {
+  /* --- nav --- */
+  .nav-links, .nav-cta { display: none; }
+  .nav-toggle { display: grid; }
+  .nav-right { gap: 14px; }
+
+  .mobile-menu {
+    display: grid;
+    padding: 0 32px;
+    max-height: 0;
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+    transition: max-height .38s cubic-bezier(.2,.7,.2,1),
+                opacity .25s ease,
+                visibility 0s linear .38s;
+  }
+  .nav.is-open .mobile-menu {
+    max-height: 340px;
+    opacity: 1;
+    visibility: visible;
+    transition: max-height .38s cubic-bezier(.2,.7,.2,1),
+                opacity .25s ease .06s,
+                visibility 0s linear 0s;
+  }
+  .mobile-menu a:not(.btn) {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 17px;
+    padding: 15px 2px;
+    border-bottom: 1px solid var(--border);
+  }
+  .mobile-menu-cta { justify-content: center; margin: 20px 0 24px; }
+
+  /* --- layout --- */
   .about { grid-template-columns: 1fr; }
   .work-grid, .toolkit-grid { grid-template-columns: 1fr; }
-  .nav-right a:not(.btn) { display: none; }
+}
+
+@media (max-width: 640px) {
+  /* --- rhythm --- */
+  .nav-bar { padding: 14px 20px; }
+  .mobile-menu { padding: 0 20px; }
+  section { padding: 76px 20px; }
+  .hero { padding: 56px 20px 76px; }
+  .about { padding: 76px 20px; }
+  .work { padding: 20px 20px 76px; }
+  .toolkit { padding: 8px 20px 76px; }
+  .experience { padding: 8px 20px 76px; }
+  .contact { padding: 24px 20px 64px; }
+  .footer { padding: 26px 20px; }
+  section[id] { scroll-margin-top: 76px; }
+
+  .mono-label { font-size: 12px; margin-bottom: 14px; }
+
+  /* --- hero --- */
+  .badge { margin-bottom: 26px; padding: 7px 14px; }
+  .badge .mono { font-size: 11px; }
+  .hero-title { font-size: clamp(38px, 11.5vw, 60px); }
+  .hero-subtitle { font-size: 17px; margin-top: 18px; }
+  .hero-cta { gap: 12px; margin-top: 32px; }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px 12px;
+    margin-top: 48px;
+  }
+  .stat-value { font-size: 28px; }
+  .stat-label { font-size: 11px; line-height: 1.35; }
+
+  /* --- blobs: smaller so the blur stays cheap on mobile GPUs --- */
+  .blob-hero-1 { width: 280px; height: 280px; top: -30px; right: -90px; }
+  .blob-hero-2 { width: 220px; height: 220px; left: -110px; bottom: 60px; }
+  .blob-contact { width: 200px; height: 200px; top: -60px; right: -50px; }
+
+  /* --- marquee --- */
+  .marquee-wrap { padding: 16px 0; }
+  .marquee-item { font-size: 18px; }
+
+  /* --- about --- */
+  .about-text p { font-size: 16px; }
+
+  /* --- section heads --- */
+  .work h2, .toolkit h2, .experience h2 { margin-bottom: 36px; }
+  .section-head { margin-bottom: 36px; }
+
+  /* --- work --- */
+  .work-grid, .toolkit-grid { gap: 18px; }
+  .project-card { border-radius: 22px; }
+  .project-body { padding: 24px 22px 26px; }
+  .project-head h3 { font-size: 20px; }
+  .project-desc { font-size: 14px; margin: 10px 0 16px; }
+
+  /* --- toolkit --- */
+  .skill-card { border-radius: 20px; padding: 24px 22px; }
+  .skill-head { margin-bottom: 18px; }
+  .skill-head h3 { font-size: 17px; }
+  .skill-items { gap: 8px; }
+  .skill-chip { font-size: 13px; padding: 7px 12px; }
+
+  /* --- experience --- */
+  .timeline { padding-left: 24px; }
+  .timeline-item { padding-bottom: 36px; }
+  .timeline-dot { left: -32px; width: 13px; height: 13px; }
+  .timeline-item h3 { font-size: 19px; }
+  .timeline-desc, .timeline-company { font-size: 14px; }
+
+  /* --- contact --- */
+  .contact-panel { border-radius: 26px; padding: 40px 24px; }
+  .contact-inner h2 { font-size: clamp(28px, 8vw, 40px); }
+  .contact-inner p { font-size: 16px; margin-bottom: 30px; }
+  .contact-actions { flex-direction: column; align-items: stretch; gap: 12px; }
+  .contact-email {
+    width: 100%; justify-content: center;
+    font-size: 15px; padding: 15px 16px;
+    overflow-wrap: anywhere;
+  }
+  .contact-socials { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .contact-socials a { justify-content: center; padding: 13px 16px; }
+
+  /* --- footer --- */
+  .footer { flex-direction: column; align-items: flex-start; gap: 12px; }
+}
+
+@media (max-width: 400px) {
+  .nav-bar { padding: 12px 16px; }
+  .mobile-menu { padding: 0 16px; }
+  section, .hero, .about, .work, .toolkit, .experience, .contact { padding-left: 16px; padding-right: 16px; }
+  .footer { padding-left: 16px; padding-right: 16px; }
+
+  .logo-name { display: none; }
+  .hero-title { font-size: clamp(34px, 11vw, 44px); }
+  .hero-cta { flex-direction: column; align-items: stretch; }
+  .hero-cta .btn { justify-content: center; }
+  .hero-stats { grid-template-columns: 1fr 1fr; gap: 20px 14px; }
+  .contact-panel { padding: 34px 20px; }
+}
+
+/* -------- motion preferences -------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    transition-delay: 0ms !important;
+  }
+  .marquee-track { animation: none !important; transform: none !important; }
+  #glow { display: none; }
+}
+
+/* the cursor glow is meaningless without a pointer — and it's a 520px
+   blurred layer, so drop it entirely on touch devices */
+@media (hover: none), (pointer: coarse) {
+  #glow { display: none; }
 }
