@@ -22,11 +22,46 @@
     applyTheme(next);
   });
 
+  /* ---------------- mobile nav ---------------- */
+  var nav = document.getElementById("nav");
+  var navToggle = document.getElementById("nav-toggle");
+  var mobileMenu = document.getElementById("mobile-menu");
+
+  function setMenu(open) {
+    nav.classList.toggle("is-open", open);
+    navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    navToggle.setAttribute("aria-label", (open ? "Close" : "Open") + " navigation menu");
+  }
+
+  navToggle.addEventListener("click", function () {
+    setMenu(!nav.classList.contains("is-open"));
+  });
+
+  // any tap inside the panel is a navigation — collapse it
+  mobileMenu.addEventListener("click", function (ev) {
+    if (ev.target.closest("a")) setMenu(false);
+  });
+
+  document.addEventListener("keydown", function (ev) {
+    if (ev.key === "Escape" && nav.classList.contains("is-open")) {
+      setMenu(false);
+      navToggle.focus();
+    }
+  });
+
+  // rotating to landscape can cross the breakpoint while the panel is open
+  window.addEventListener("resize", function () {
+    if (window.innerWidth > 860) setMenu(false);
+  });
+
   /* ---------------- cursor glow ---------------- */
   var glow = document.getElementById("glow");
-  window.addEventListener("pointermove", function (ev) {
-    glow.style.transform = "translate(" + ev.clientX + "px, " + ev.clientY + "px)";
-  }, { passive: true });
+  var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+  if (finePointer.matches) {
+    window.addEventListener("pointermove", function (ev) {
+      glow.style.transform = "translate(" + ev.clientX + "px, " + ev.clientY + "px)";
+    }, { passive: true });
+  }
 
   /* ---------------- render static data ---------------- */
   function el(tag, className, html) {
