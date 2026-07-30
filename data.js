@@ -38,28 +38,28 @@ const PROJECTS = [
     year: "2026",
     desc: "Owned the real-time chat panel end-to-end across 5+ channels (WhatsApp, Email, Instagram, Facebook, Gmail) with reactions, link previews, and auto-reconnect WebSockets.",
     tags: ["React", "WebSocket", "Real-time"],
-    link: "#",
+    link: "https://www.gokwik.co/product/kwikengage",
   },
   {
     name: "DIY Bot Builder",
     year: "2026",
     desc: "Led a ground-up revamp of the drag-and-drop bot builder — flow listing, new breakers/actions, and an AI-powered chat summarizer with custom thread compression.",
     tags: ["React", "DnD", "AI Integration"],
-    link: "#",
+    link: "https://www.gokwik.co/",
   },
   {
     name: "Squareboat.com",
     year: "2025",
     desc: "Led a multi-page corporate site rebuild. Structured metadata and semantic HTML lifted search visibility 60% and cut load time by 3+ seconds via lazy loading and font optimization.",
     tags: ["Next.js", "TypeScript", "Tailwind CSS"],
-    link: "#",
+    link: "https://www.squareboat.com",
   },
   {
     name: "Tofler.in",
     year: "2024",
     desc: "Engineered a high-performance SaaS UI from scratch with reusable components and a 10KB CSS bundle via modular SASS architecture.",
     tags: ["HTML5", "SASS/SCSS", "JavaScript"],
-    link: "#",
+    link: "https://www.tofler.in",
   },
 ];
 
